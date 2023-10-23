@@ -1,0 +1,12 @@
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  src: url("../public/fonts/AnyConv.com__Pretendard-Black.eot") format("eot");
+}
+
+@font-face {
+    font-family: "Pretendardbold";
+    font-style: normal;
+    src: url("../public/fonts/AnyConv.com__Pretendard-Bold.eot") format("eot");
+  }
+  
