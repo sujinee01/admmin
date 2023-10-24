@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "./Font.css";
 
-const Box = ({ color, text, checkboxId }) => {
+const Box = ({ color, text, checkboxId, onBoxClick }) => {
   const boxStyle = {
-    backgroundColor: color, // color prop을 이용해 동적으로 배경색을 설정
+    backgroundColor: color,
   };
 
   return (
-    <div className="box" style={boxStyle}>
+    <div className="box" style={boxStyle} onClick={() => onBoxClick(text)}>
       <input type="checkbox" id={checkboxId} />
       <label htmlFor={checkboxId}>{text}</label>
     </div>
@@ -18,7 +18,11 @@ const Box = ({ color, text, checkboxId }) => {
 function App() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [popupType, setPopupType] = useState(null);
-
+  const [selectedBox, setSelectedBox] = useState(null);
+  const handleBoxClick = (boxNumber) => {
+    setSelectedBox(boxNumber);
+    openPopup("time");
+  };
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -174,44 +178,194 @@ function App() {
       </div>
       <div class="box-list">
         <div class="table-container">
-          <Box color="#FFC5F1" text="1" checkboxId="checkbox1" />
-          <Box color="#D9D9D9" text="2" checkboxId="checkbox1" />
-          <Box color="#F9F16A" text="3" checkboxId="checkbox1" />
-          <Box color="#D9D9D9" text="4" checkboxId="checkbox1" />
-          <Box color="#FFC5F1" text="5" checkboxId="checkbox1" />
-          <Box color="#F9F16A" text="6" checkboxId="checkbox1" />
+          <Box
+            color="#FFC5F1"
+            text="1"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#D9D9D9"
+            text="2"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#F9F16A"
+            text="3"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#D9D9D9"
+            text="4"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#FFC5F1"
+            text="5"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#F9F16A"
+            text="6"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
         </div>
         <div class="table-container">
-          <Box color="#9A66FF" text="7" checkboxId="checkbox1" />
-          <Box color="#D9D9D9" text="8" checkboxId="checkbox1" />
-          <Box color="#87DEFF" text="9" checkboxId="checkbox1" />
-          <Box color="#FFC5F1" text="10" checkboxId="checkbox1" />
-          <Box color="#9A66FF" text="11" checkboxId="checkbox1" />
-          <Box color="#87DEFF" text="12" checkboxId="checkbox1" />
+          <Box
+            color="#9A66FF"
+            text="7"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#D9D9D9"
+            text="8"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#87DEFF"
+            text="9"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#FFC5F1"
+            text="10"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#9A66FF"
+            text="11"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#87DEFF"
+            text="12"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
         </div>
         <div class="table-container">
-          <Box color="#FFC5F1" text="13" checkboxId="checkbox1" />
-          <Box color="#87DEFF" text="14" checkboxId="checkbox1" />
-          <Box color="#D9D9D9" text="15" checkboxId="checkbox1" />
-          <Box color="#9A66FF" text="16" checkboxId="checkbox1" />
-          <Box color="#D9D9D9" text="17" checkboxId="checkbox1" />
-          <Box color="#F9F16A" text="18" checkboxId="checkbox1" />
+          <Box
+            color="#FFC5F1"
+            text="13"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#87DEFF"
+            text="14"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#D9D9D9"
+            text="15"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#9A66FF"
+            text="16"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#D9D9D9"
+            text="17"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#F9F16A"
+            text="18"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
         </div>
         <div class="table-container">
-          <Box color="#F9F16A" text="19" checkboxId="checkbox1" />
-          <Box color="#9A66FF" text="20" checkboxId="checkbox1" />
-          <Box color="#FFC5F1" text="21" checkboxId="checkbox1" />
-          <Box color="#9A66FF" text="22" checkboxId="checkbox1" />
-          <Box color="#D9D9D9" text="23" checkboxId="checkbox1" />
-          <Box color="#87DEFF" text="24" checkboxId="checkbox1" />
+          <Box
+            color="#F9F16A"
+            text="19"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#9A66FF"
+            text="20"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#FFC5F1"
+            text="21"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#9A66FF"
+            text="22"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#D9D9D9"
+            text="23"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#87DEFF"
+            text="24"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
         </div>
         <div class="table-container">
-          <Box color="#9A66FF" text="25" checkboxId="checkbox1" />
-          <Box color="#FFC5F1" text="26" checkboxId="checkbox1" />
-          <Box color="#F9F16A" text="27" checkboxId="checkbox1" />
-          <Box color="#D9D9D9" text="28" checkboxId="checkbox1" />
-          <Box color="#9A66FF" text="29" checkboxId="checkbox1" />
-          <Box color="#87DEFF" text="30" checkboxId="checkbox1" />
+          <Box
+            color="#9A66FF"
+            text="25"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#FFC5F1"
+            text="26"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#F9F16A"
+            text="27"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#D9D9D9"
+            text="28"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#9A66FF"
+            text="29"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
+          <Box
+            color="#87DEFF"
+            text="30"
+            checkboxId="checkbox1"
+            onBoxClick={handleBoxClick}
+          />
         </div>
       </div>
       {isModalVisible && (
