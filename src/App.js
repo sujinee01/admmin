@@ -19,9 +19,13 @@ function App() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [popupType, setPopupType] = useState(null);
   const [selectedBox, setSelectedBox] = useState(null);
+  const [boxtext, setBoxText] = useState("");
+
   const handleBoxClick = (boxNumber) => {
     setSelectedBox(boxNumber);
-    openPopup("time");
+    const selectedBoxText = boxNumber; // 예시로 선택한 박스의 텍스트를 사용
+    setBoxText(selectedBoxText);
+    openPopup("box");
   };
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -371,13 +375,48 @@ function App() {
       {isModalVisible && (
         <div className="modal">
           <div className="modal-content">
+            {popupType === "box" && (
+              <div id="layer_bg" className="modal-container">
+                <div id="popup" className="modal-box">
+                  <div className="boxtitle">
+                    <div className="close-button" onClick={closePopup}>
+                      x
+                    </div>
+                    <h2 classname="boxname">Table No. {boxtext}</h2>
+                    <div className="boxline"></div>
+                  </div>
+                  <hr className="modal-hr" />
+                  <div className="contentposi">
+                    <div className="boxcontent">
+                      <span className="boxvalue">인원수:n</span>
+                      <span className="boxvalue">입장시간:19:30</span>
+                      <span className="boxvalue">퇴장시간:21:00</span>
+                    </div>
+                    <div className="boxbuttons">
+                      <button className="boxbtn" onClick={closePopup}>
+                        시간추가
+                      </button>
+                      <button className="boxbtn" onClick={closePopup}>
+                        하트추가
+                      </button>
+                      <button className="boxbtn" onClick={closePopup}>
+                        퇴장처리
+                      </button>
+                      <button className="boxbtn" onClick={closePopup}>
+                        합석처리
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             {popupType === "time" && (
               <div id="layer_bg" className="modal-container">
-                <div id="popup" className="modal-content">
+                <div id="popup" className="modal-box">
                   <div className="close-button" onClick={closePopup}>
                     x
                   </div>
-                  <h2>Table No.</h2>
+                  <h2 classname="classname">Table No.</h2>
                   <div className="modalline"></div>
                   <hr className="modal-hr" />
                   <div className="content-area">
@@ -401,7 +440,7 @@ function App() {
                   <div className="close-button" onClick={closePopup}>
                     x
                   </div>
-                  <h2>Table No.</h2>
+                  <h2 classname="classname">Table No.</h2>
                   <div className="modalline"></div>
                   <hr className="modal-hr" />
                   <div className="content-area">
@@ -425,7 +464,7 @@ function App() {
                   <div className="close-button" onClick={closePopup}>
                     x
                   </div>
-                  <h2>Table No.</h2>
+                  <h2 classname="classname">Table No.</h2>
                   <div className="modalline"></div>
                   <hr className="modal-hr" />
                   <div className="content-area">
@@ -443,7 +482,7 @@ function App() {
                   <div className="close-button" onClick={closePopup}>
                     x
                   </div>
-                  <h2>Table No.</h2>
+                  <h2 classname="classname">Table No.</h2>
                   <div className="modalline"></div>
                   <hr className="modal-hr" />
                   <div className="content-area">
