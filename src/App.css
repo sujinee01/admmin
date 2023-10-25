@@ -300,8 +300,8 @@
   margin-left: 2%;
 }
 .table-container {
-  display: flex; /* Flex Container로 설정 */
-  height: 13.3vh; /* Flex Container의 높이 설정 */
+  display: flex;
+  height: 13.3vh;
 }
 
 .box {
@@ -314,16 +314,10 @@
   border-radius: 10%;
 }
 
-.box-checkbox {
+.box-number {
   position: absolute;
   top: 0;
-  left: 0;
-}
-
-.box-text {
-  position: absolute;
-  top: 0;
-  right: 0;
+  margin-left: 70%;
   font-size: 1.5rem;
 }
 
@@ -350,11 +344,11 @@
   position: absolute;
   height: 5vh;
   width: 7rem;
+  margin-left: 15%;
   border-radius: 40px;
   background: #fff;
   border: 1px solid #2d63a4;
   color: #2d63a4;
-  margin-left: 15%;
 }
 
 .heart-plus {
@@ -426,68 +420,10 @@
   border-radius: 20%;
 }
 
-.modal-box {
-  background: white;
-  width: 350px;
-  height: 350px;
-  padding: 10px;
-  text-align: center;
-  border-radius: 20%;
-}
-
 .modal-hr {
-  margin-top: 1%;
-  color: black;
-}
-
-.modal-box {
-  background: white;
-  width: 350px;
-  height: 350px;
-  padding: 20px;
-  text-align: center;
-  border-radius: 20%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.contentposi {
-  display: flex;
-  margin-top: 0%;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-.boxcontent {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-size: 1.3rem;
-}
-
-.boxbuttons {
-  display: flex;
-  flex-direction: column; /* 세로로 배치 */
-  align-items: flex-end; /* 오른쪽 정렬 */
-  margin-top: 0%;
-}
-
-.boxbtn {
-  background-color: #87deff;
-  color: white;
-  border: none;
-  align-items: center;
-  padding: 5px 10px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-bottom: 0.4rem;
-}
-
-.boxbtn:hover {
-  background: #fff;
-  color: #87deff;
-  border: none;
-  transition: 0.2s;
+  width: 100%;
+  margin-top: 3%;
+  border-bottom: 1px solid black;
 }
 
 .content-area {
@@ -529,6 +465,7 @@
 }
 
 .plus-button {
+  width: 10rem;
   background-color: #87deff;
   color: white;
   border: none;
@@ -537,4 +474,70 @@
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+}
+
+.modal-box {
+  background: white;
+  width: 350px;
+  height: 400px; /* 높이 조절 */
+  padding: 10px;
+  text-align: center;
+  border-radius: 20%;
+}
+
+.box-hr {
+  width: 100%;
+  margin-top: 6%;
+  margin-bottom: 6%;
+  border-bottom: 1px solid black;
+}
+
+.contentposi {
+  display: flex;
+  justify-content: space-between;
+  width: 350px;
+  margin-top: 2%;
+}
+
+.boxcontent {
+  width: 45%;
+  text-align: center;
+  font-size: 1.3rem;
+  margin-top: 3rem;
+  margin-left: 1.2rem;
+  font-weight: 600;
+}
+
+.boxvalue {
+  margin-bottom: 2rem;
+}
+
+.boxname {
+  display: flex;
+  float: left;
+}
+
+.boxbuttons {
+  float: right;
+  width: 45%;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.boxbtn {
+  background-color: #87deff;
+  color: white;
+  border: none;
+  align-items: center;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.boxbtn:hover {
+  background: #fff;
+  color: #87deff;
+  border: none;
+  transition: 0.2s;
 }

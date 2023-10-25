@@ -2,15 +2,35 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "./Font.css";
 
-const Box = ({ color, text, checkboxId, onBoxClick }) => {
+const Box = ({ number, color, isSelected, onBoxClick, onButtonClick }) => {
+  const [selectedBox, setSelectedBox] = useState(null);
+  const [selectedBoxes, setSelectedBoxes] = useState([]);
+
   const boxStyle = {
     backgroundColor: color,
+    position: "relative", // 부모 요소의 position을 설정
+  };
+
+  const buttonStyle = {
+    backgroundColor: isSelected ? "black" : "white",
+    border: "none",
+    borderRadius: "50%",
+    padding: "10px",
+    cursor: "pointer",
+    position: "absolute", // 자식 요소의 position을 설정하여 부모 요소에 영향을 주지 않도록 함
+    top: "10px", // 원하는 위치에 버튼을 배치할 수 있도록 bottom, top, left, right 등의 속성을 조절
+    left: "10px",
+  };
+
+  const handleButtonClick = (event, boxNumber) => {
+    event.stopPropagation(); // 버튼 클릭 이벤트 전파 중지
+    onButtonClick(event, number);
   };
 
   return (
-    <div className="box" style={boxStyle} onClick={() => onBoxClick(text)}>
-      <input type="checkbox" id={checkboxId} />
-      <label htmlFor={checkboxId}>{text}</label>
+    <div className="box" style={boxStyle} onClick={() => onBoxClick(number)}>
+      <span className="box-number">{number}</span>
+      <button style={buttonStyle} onClick={handleButtonClick}></button>
     </div>
   );
 };
@@ -19,27 +39,47 @@ function App() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [popupType, setPopupType] = useState(null);
   const [selectedBox, setSelectedBox] = useState(null);
+  const [selectedBoxes, setSelectedBoxes] = useState([]);
   const [boxtext, setBoxText] = useState("");
 
   const handleBoxClick = (boxNumber) => {
     setSelectedBox(boxNumber);
-    const selectedBoxText = boxNumber; // 예시로 선택한 박스의 텍스트를 사용
+    const selectedBoxText = `Table No. ${boxNumber}`;
     setBoxText(selectedBoxText);
     openPopup("box");
   };
+
+  const [isButtonSelected, setIsButtonSelected] = useState(false);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
-  const openPopup = (type) => {
-    setPopupType(type);
-    toggleModal(); // 팝업을 열 때 모달을 보이도록 설정
+  const handleButtonClick = (event, boxNumber) => {
+    event.stopPropagation(); // 버튼 클릭 이벤트 전파 중지
+
+    if (selectedBoxes.includes(boxNumber)) {
+      // 이미 선택된 상자일 경우 선택 해제
+      setSelectedBoxes(selectedBoxes.filter((number) => number !== boxNumber));
+    } else {
+      // 선택되지 않은 상자일 경우 선택
+      setSelectedBoxes([...selectedBoxes, boxNumber]);
+    }
+  };
+  const handleAllClick = () => {
+    // 버튼 클릭 시 선택 상태 토글
+    setIsButtonSelected((prevIsButtonSelected) => !prevIsButtonSelected);
   };
 
-  const closePopup = () => {
-    setPopupType(null);
-    toggleModal(); // 팝업을 닫을 때 모달을 숨기도록 설정
-  };
+  useEffect(() => {
+    if (isButtonSelected) {
+      // 버튼이 선택된 상태라면 모든 상자 선택
+      const allBoxNumbers = Array.from({ length: 30 }, (_, index) => index + 1);
+      setSelectedBoxes(allBoxNumbers);
+    } else {
+      // 버튼이 해제된 상태라면 모든 상자 선택 해제
+      setSelectedBoxes([]);
+    }
+  }, [isButtonSelected]);
 
   const [isTimePlusVisible, setTimePlusVisible] = useState(false);
   const [isHeartPlusVisible, setHeartPlusVisible] = useState(false);
@@ -115,6 +155,33 @@ function App() {
   const decreaseValue = () => {
     setValue(value - 10); // 현재 값에서 10을 뺀 값으로 상태값 업데이트
   };
+
+  const upValue = () => {
+    setValue(value + 1); // 현재 값에 1을 더한 값으로 상태값 업데이트
+  };
+
+  const downValue = () => {
+    setValue(value - 1); // 현재 값에서 1을 뺀 값으로 상태값 업데이트
+  };
+
+  const handlePopupClick = (type) => {
+    if (selectedBoxes.length > 0) {
+      openPopup(type);
+    }
+  };
+
+  const openPopup = (type) => {
+    setPopupType(type);
+    toggleModal(); // 팝업을 열 때 모달을 보이도록 설정
+  };
+
+  const closePopup = () => {
+    setPopupType(null);
+    toggleModal(); // 팝업을 닫을 때 모달을 숨기도록 설정
+    setSelectedBoxes([]);
+    setValue(0);
+  };
+
   return (
     <div className="admin_body">
       <div class="v-line"></div>
@@ -178,197 +245,228 @@ function App() {
         </div>
       </nav>
       <div class="admin_container">
-        <button class="table_choice">선택</button>
+        <button class="table_choice" onClick={handleAllClick}>
+          선택
+        </button>
       </div>
       <div class="box-list">
         <div class="table-container">
           <Box
-            color="#FFC5F1"
-            text="1"
-            checkboxId="checkbox1"
+            number={1}
+            color="#9A66FF"
+            isSelected={selectedBoxes.includes(1)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
+            number={2}
             color="#D9D9D9"
-            text="2"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(2)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
+            number={3}
             color="#F9F16A"
-            text="3"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(3)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
-            color="#D9D9D9"
-            text="4"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
+            number={4}
             color="#FFC5F1"
-            text="5"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(4)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
-            color="#F9F16A"
-            text="6"
-            checkboxId="checkbox1"
+            number={5}
+            color="#9A66FF"
+            isSelected={selectedBoxes.includes(5)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={6}
+            color="#F9F16A"
+            isSelected={selectedBoxes.includes(6)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
         </div>
         <div class="table-container">
           <Box
-            color="#9A66FF"
-            text="7"
-            checkboxId="checkbox1"
+            number={7}
+            color="#F9F16A"
+            isSelected={selectedBoxes.includes(7)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
+            number={8}
             color="#D9D9D9"
-            text="8"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(8)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
+            number={9}
             color="#87DEFF"
-            text="9"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(9)}
             onBoxClick={handleBoxClick}
           />
           <Box
+            number={10}
             color="#FFC5F1"
-            text="10"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(10)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
-            color="#9A66FF"
-            text="11"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
+            number={11}
             color="#87DEFF"
-            text="12"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(11)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={12}
+            color="#F9F16A"
+            isSelected={selectedBoxes.includes(12)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
         </div>
         <div class="table-container">
           <Box
-            color="#FFC5F1"
-            text="13"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
-            color="#87DEFF"
-            text="14"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
-            color="#D9D9D9"
-            text="15"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
+            number={13}
             color="#9A66FF"
-            text="16"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(13)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
-            color="#D9D9D9"
-            text="17"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
+            number={14}
             color="#F9F16A"
-            text="18"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(14)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={15}
+            color="#87DEFF"
+            isSelected={selectedBoxes.includes(15)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={16}
+            color="#F9F16A"
+            isSelected={selectedBoxes.includes(16)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={17}
+            color="#9A66FF"
+            isSelected={selectedBoxes.includes(17)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={18}
+            color="#87DEFF"
+            isSelected={selectedBoxes.includes(18)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
         </div>
         <div class="table-container">
           <Box
+            number={19}
             color="#F9F16A"
-            text="19"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(19)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
-            color="#9A66FF"
-            text="20"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
-            color="#FFC5F1"
-            text="21"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
-            color="#9A66FF"
-            text="22"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
+            number={20}
             color="#D9D9D9"
-            text="23"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(20)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
-            color="#87DEFF"
-            text="24"
-            checkboxId="checkbox1"
+            number={21}
+            color="#9A66FF"
+            isSelected={selectedBoxes.includes(21)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={22}
+            color="#87DEFF"
+            isSelected={selectedBoxes.includes(22)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={23}
+            color="#FFC5F1"
+            isSelected={selectedBoxes.includes(23)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={24}
+            color="#9A66FF"
+            isSelected={selectedBoxes.includes(24)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
         </div>
         <div class="table-container">
           <Box
-            color="#9A66FF"
-            text="25"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
-            color="#FFC5F1"
-            text="26"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
+            number={25}
             color="#F9F16A"
-            text="27"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(25)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
-            color="#D9D9D9"
-            text="28"
-            checkboxId="checkbox1"
+            number={26}
+            color="#FFC5F1"
+            isSelected={selectedBoxes.includes(26)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
-            color="#9A66FF"
-            text="29"
-            checkboxId="checkbox1"
-            onBoxClick={handleBoxClick}
-          />
-          <Box
+            number={27}
             color="#87DEFF"
-            text="30"
-            checkboxId="checkbox1"
+            isSelected={selectedBoxes.includes(27)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={28}
+            color="#FFC5F1"
+            isSelected={selectedBoxes.includes(28)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={29}
+            color="#9A66FF"
+            isSelected={selectedBoxes.includes(29)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
+          />
+          <Box
+            number={30}
+            color="#F9F16A"
+            isSelected={selectedBoxes.includes(30)}
+            onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
         </div>
       </div>
@@ -382,15 +480,16 @@ function App() {
                     <div className="close-button" onClick={closePopup}>
                       x
                     </div>
-                    <h2 classname="boxname">Table No. {boxtext}</h2>
-                    <div className="boxline"></div>
+                    <h2 className="boxname">{boxtext}</h2>
                   </div>
-                  <hr className="modal-hr" />
+                  <hr className="box-hr" />
                   <div className="contentposi">
                     <div className="boxcontent">
-                      <span className="boxvalue">인원수:n</span>
-                      <span className="boxvalue">입장시간:19:30</span>
-                      <span className="boxvalue">퇴장시간:21:00</span>
+                      <span className="boxvalue">인원수 : n</span>
+                      <br />
+                      <span className="boxvalue">입장시간 : 19:30</span>
+                      <br />
+                      <span className="boxvalue">퇴장시간 : 21:00</span>
                     </div>
                     <div className="boxbuttons">
                       <button className="boxbtn" onClick={closePopup}>
@@ -412,11 +511,13 @@ function App() {
             )}
             {popupType === "time" && (
               <div id="layer_bg" className="modal-container">
-                <div id="popup" className="modal-box">
+                <div id="popup" className="modal-content">
                   <div className="close-button" onClick={closePopup}>
                     x
                   </div>
-                  <h2 classname="classname">Table No.</h2>
+                  <h2 className="classname">
+                    Table No. {selectedBoxes.join(", ")}
+                  </h2>
                   <div className="modalline"></div>
                   <hr className="modal-hr" />
                   <div className="content-area">
@@ -440,15 +541,17 @@ function App() {
                   <div className="close-button" onClick={closePopup}>
                     x
                   </div>
-                  <h2 classname="classname">Table No.</h2>
+                  <h2 className="classname">
+                    Table No. {selectedBoxes.join(", ")}
+                  </h2>
                   <div className="modalline"></div>
                   <hr className="modal-hr" />
                   <div className="content-area">
-                    <button className="adjust-button" onClick={decreaseValue}>
+                    <button className="adjust-button" onClick={downValue}>
                       -
                     </button>
                     <span className="value">{value}</span>
-                    <button className="adjust-button" onClick={increaseValue}>
+                    <button className="adjust-button" onClick={upValue}>
                       +
                     </button>
                   </div>
@@ -464,7 +567,9 @@ function App() {
                   <div className="close-button" onClick={closePopup}>
                     x
                   </div>
-                  <h2 classname="classname">Table No.</h2>
+                  <h2 className="classname">
+                    Table No. {selectedBoxes.join(", ")}
+                  </h2>
                   <div className="modalline"></div>
                   <hr className="modal-hr" />
                   <div className="content-area">
@@ -482,7 +587,9 @@ function App() {
                   <div className="close-button" onClick={closePopup}>
                     x
                   </div>
-                  <h2 classname="classname">Table No.</h2>
+                  <h2 className="classname">
+                    Table No.{selectedBoxes.join(", ")}
+                  </h2>
                   <div className="modalline"></div>
                   <hr className="modal-hr" />
                   <div className="content-area">
@@ -492,7 +599,7 @@ function App() {
                     </span>
                   </div>
                   <button className="plus-button" onClick={closePopup}>
-                    퇴장처리
+                    합석처리
                   </button>
                 </div>
               </div>
@@ -503,16 +610,36 @@ function App() {
       <footer>
         <div className="admin-footer">
           <div className="footer-button">
-            <button className="time-plus" onClick={() => openPopup("time")}>
+            <button
+              className="time-plus"
+              onClick={() => {
+                handlePopupClick("time");
+              }}
+            >
               시간 추가
             </button>
-            <button className="heart-plus" onClick={() => openPopup("heart")}>
+            <button
+              className="heart-plus"
+              onClick={() => {
+                handlePopupClick("heart");
+              }}
+            >
               하트 충전
             </button>
-            <button className="table-exit" onClick={() => openPopup("exit")}>
+            <button
+              className="table-exit"
+              onClick={() => {
+                handlePopupClick("exit");
+              }}
+            >
               퇴장 처리
             </button>
-            <button className="table-mix" onClick={() => openPopup("mix")}>
+            <button
+              className="table-mix"
+              onClick={() => {
+                handlePopupClick("mix");
+              }}
+            >
               합석 처리
             </button>
           </div>
