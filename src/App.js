@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "./Font.css";
+import Man from "./assets/images/Man.svg";
+import Woman from "./assets/images/Woman.svg";
+import Couple from "./assets/images/Couple.svg";
+import Logo from "./assets/images/Logo.svg";
+import Tiger from "./assets/images/Tiger.svg";
+import Call from "./assets/images/Call.svg";
 
-const Box = ({ number, color, isSelected, onBoxClick, onButtonClick }) => {
+const boxOptions = {
+  man: { color: "#80C2FF", image: Man, alt: "Man" },
+  woman: { color: "#FF8FD2", image: Woman, alt: "Woman" },
+  mix: { color: "#FFC555", image: Couple, alt: "Couple" },
+  join: { color: "#DD7DFF", image: Logo, alt: "Logo" },
+  empty: { color: "#C8C8C8", image: Logo, alt: "Logo" },
+};
+
+const Box = ({ number, value, isSelected, onBoxClick, onButtonClick }) => {
   const [selectedBox, setSelectedBox] = useState(null);
   const [selectedBoxes, setSelectedBoxes] = useState([]);
 
+  const { color, image } = boxOptions[value] || boxOptions.empty;
+
   const boxStyle = {
     backgroundColor: color,
-    position: "relative", // 부모 요소의 position을 설정
+    position: "relative",
   };
 
   const buttonStyle = {
@@ -17,19 +33,20 @@ const Box = ({ number, color, isSelected, onBoxClick, onButtonClick }) => {
     borderRadius: "50%",
     padding: "10px",
     cursor: "pointer",
-    position: "absolute", // 자식 요소의 position을 설정하여 부모 요소에 영향을 주지 않도록 함
-    top: "10px", // 원하는 위치에 버튼을 배치할 수 있도록 bottom, top, left, right 등의 속성을 조절
+    position: "absolute",
+    top: "10px",
     left: "10px",
   };
 
   const handleButtonClick = (event, boxNumber) => {
-    event.stopPropagation(); // 버튼 클릭 이벤트 전파 중지
+    event.stopPropagation();
     onButtonClick(event, number);
   };
 
   return (
     <div className="box" style={boxStyle} onClick={() => onBoxClick(number)}>
       <span className="box-number">{number}</span>
+      <img src={image} alt="Box Image" />
       <button style={buttonStyle} onClick={handleButtonClick}></button>
     </div>
   );
@@ -85,6 +102,7 @@ function App() {
   const [isHeartPlusVisible, setHeartPlusVisible] = useState(false);
   const [isTableExitVisible, setTableExitVisible] = useState(false);
   const [isTableMixVisible, setTableMixVisible] = useState(false);
+
   const alarmData = [
     {
       alarm: "[시간 충전] 5번 테이블에 시간을 N분 충전해 주세요",
@@ -102,6 +120,7 @@ function App() {
       alarm: "[테이블 비우기] 3번 테이블을 비워주세요.",
     },
   ];
+
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -197,11 +216,8 @@ function App() {
       <header>
         <div class="admin_header">
           <div class="main-title">
-            <span>
-              바른생각
-              <br />
-              바른주점
-            </span>
+            <img className="title-tiger" src={Tiger} alt="Tiger"></img>
+            <img src={Logo} alt="Logo"></img>
           </div>
           <div className="digital-clock">{formattedTime()}</div>
         </div>
@@ -244,51 +260,47 @@ function App() {
           <div class="info_num">1</div>
         </div>
       </nav>
-      <div class="admin_container">
-        <button class="table_choice" onClick={handleAllClick}>
-          선택
-        </button>
-      </div>
+
       <div class="box-list">
         <div class="table-container">
           <Box
             number={1}
-            color="#9A66FF"
+            value="woman"
             isSelected={selectedBoxes.includes(1)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={2}
-            color="#D9D9D9"
+            value=""
             isSelected={selectedBoxes.includes(2)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={3}
-            color="#F9F16A"
+            value="woman"
             isSelected={selectedBoxes.includes(3)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={4}
-            color="#FFC5F1"
+            value="mix"
             isSelected={selectedBoxes.includes(4)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={5}
-            color="#9A66FF"
+            value="join"
             isSelected={selectedBoxes.includes(5)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={6}
-            color="#F9F16A"
+            value="man" // 박스의 값(man, woman, mix, join, empty)을 여기에 전달
             isSelected={selectedBoxes.includes(6)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
@@ -297,41 +309,42 @@ function App() {
         <div class="table-container">
           <Box
             number={7}
-            color="#F9F16A"
+            value="join"
             isSelected={selectedBoxes.includes(7)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={8}
-            color="#D9D9D9"
+            value="man"
             isSelected={selectedBoxes.includes(8)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={9}
-            color="#87DEFF"
+            value="woman"
             isSelected={selectedBoxes.includes(9)}
             onBoxClick={handleBoxClick}
+            onButtonClick={handleButtonClick}
           />
           <Box
             number={10}
-            color="#FFC5F1"
+            value="join"
             isSelected={selectedBoxes.includes(10)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={11}
-            color="#87DEFF"
+            value="man"
             isSelected={selectedBoxes.includes(11)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={12}
-            color="#F9F16A"
+            value="woman"
             isSelected={selectedBoxes.includes(12)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
@@ -340,42 +353,42 @@ function App() {
         <div class="table-container">
           <Box
             number={13}
-            color="#9A66FF"
+            value="empty"
             isSelected={selectedBoxes.includes(13)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={14}
-            color="#F9F16A"
+            value="man"
             isSelected={selectedBoxes.includes(14)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={15}
-            color="#87DEFF"
+            color="mix"
             isSelected={selectedBoxes.includes(15)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={16}
-            color="#F9F16A"
+            value="woman"
             isSelected={selectedBoxes.includes(16)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={17}
-            color="#9A66FF"
+            value="man"
             isSelected={selectedBoxes.includes(17)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={18}
-            color="#87DEFF"
+            value=""
             isSelected={selectedBoxes.includes(18)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
@@ -384,42 +397,42 @@ function App() {
         <div class="table-container">
           <Box
             number={19}
-            color="#F9F16A"
+            value="join"
             isSelected={selectedBoxes.includes(19)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={20}
-            color="#D9D9D9"
+            value="man"
             isSelected={selectedBoxes.includes(20)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={21}
-            color="#9A66FF"
+            value="woman"
             isSelected={selectedBoxes.includes(21)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={22}
-            color="#87DEFF"
+            value="man"
             isSelected={selectedBoxes.includes(22)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={23}
-            color="#FFC5F1"
+            value="join"
             isSelected={selectedBoxes.includes(23)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={24}
-            color="#9A66FF"
+            value="man"
             isSelected={selectedBoxes.includes(24)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
@@ -428,42 +441,42 @@ function App() {
         <div class="table-container">
           <Box
             number={25}
-            color="#F9F16A"
+            value="woman"
             isSelected={selectedBoxes.includes(25)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={26}
-            color="#FFC5F1"
+            value="man"
             isSelected={selectedBoxes.includes(26)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={27}
-            color="#87DEFF"
+            value=""
             isSelected={selectedBoxes.includes(27)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={28}
-            color="#FFC5F1"
+            value="mix"
             isSelected={selectedBoxes.includes(28)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={29}
-            color="#9A66FF"
+            value="man"
             isSelected={selectedBoxes.includes(29)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
           />
           <Box
             number={30}
-            color="#F9F16A"
+            value="join"
             isSelected={selectedBoxes.includes(30)}
             onBoxClick={handleBoxClick}
             onButtonClick={handleButtonClick}
@@ -643,6 +656,9 @@ function App() {
               합석 처리
             </button>
           </div>
+          <button class="table_choice" onClick={handleAllClick}>
+            테이블 선택
+          </button>
         </div>
       </footer>
     </div>
