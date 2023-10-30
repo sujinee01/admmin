@@ -87,7 +87,7 @@ function Main() {
 
   const handleBoxClick = (boxNumber) => {
     setSelectedBox(boxNumber);
-    const selectedBoxText = `Table No. ${boxNumber}`;
+    const selectedBoxText = `${boxNumber}번 테이블`;
     setBoxText(selectedBoxText);
     openPopup("box");
   };
@@ -189,6 +189,12 @@ function Main() {
     setValue(0);
   };
 
+  const [selectedOption, setSelectedOption] = useState("1");
+
+  const handleChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
   return (
     <div className="admin_body">
       <div class="v-line"></div>
@@ -211,8 +217,8 @@ function Main() {
         <div class="title-alarm">
           <p class="title-notice">
             <strong>NOTICE</strong>
-            <img src={Call} alt="Call Image" />
           </p>
+          <img class="title-bell" src={Call} alt="Call Image" />
         </div>
         <div className="alarm-container">
           {alarmData.map((item, index) => (
@@ -518,7 +524,7 @@ function Main() {
                     </div>
                     <h2 className="boxname">{boxtext}</h2>
                   </div>
-                  <hr className="box-hr" />
+
                   <div className="contentposi">
                     <div className="boxcontent">
                       <span className="boxvalue">인원수 : n</span>
@@ -552,10 +558,9 @@ function Main() {
                     x
                   </div>
                   <h2 className="classname">
-                    Table No. {selectedBoxes.join(", ")}
+                    {selectedBoxes.join(", ")}번 테이블
                   </h2>
-                  <div className="modalline"></div>
-                  <hr className="modal-hr" />
+
                   <div className="content-area">
                     <button className="adjust-button" onClick={decreaseValue}>
                       -
@@ -578,15 +583,14 @@ function Main() {
                     x
                   </div>
                   <h2 className="classname">
-                    Table No. {selectedBoxes.join(", ")}
+                    {selectedBoxes.join(", ")}번 테이블
                   </h2>
-                  <div className="modalline"></div>
-                  <hr className="modal-hr" />
+
                   <div className="content-area">
                     <button className="adjust-button" onClick={downValue}>
                       -
                     </button>
-                    <span className="value">{value}</span>
+                    <span className="value">{value}개</span>
                     <button className="adjust-button" onClick={upValue}>
                       +
                     </button>
@@ -604,12 +608,14 @@ function Main() {
                     x
                   </div>
                   <h2 className="classname">
-                    Table No. {selectedBoxes.join(", ")}
+                    {selectedBoxes.join(", ")}번 테이블
                   </h2>
-                  <div className="modalline"></div>
-                  <hr className="modal-hr" />
+
                   <div className="content-area">
-                    <span className="content">퇴장처리하시겠습니까?</span>
+                    <span className="content">
+                      <br />
+                      퇴장처리하시겠습니까?
+                    </span>
                   </div>
                   <button className="plus-button" onClick={closePopup}>
                     퇴장처리
@@ -624,15 +630,27 @@ function Main() {
                     x
                   </div>
                   <h2 className="classname">
-                    Table No.{selectedBoxes.join(", ")}
+                    {selectedBoxes.join(", ")}번 테이블
                   </h2>
-                  <div className="modalline"></div>
-                  <hr className="modal-hr" />
+
                   <div className="content-area">
                     <span className="content">
                       <div>몇 번 테이블로 </div>
                       <div>합석처리하시겠습니까?</div>
                     </span>
+                  </div>
+                  <div>
+                    <select
+                      className="select"
+                      value={selectedOption}
+                      onChange={handleChange}
+                    >
+                      {[...Array(30)].map((_, index) => (
+                        <option key={index + 1} value={String(index + 1)}>
+                          {index + 1}번
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <button className="plus-button" onClick={closePopup}>
                     합석처리
